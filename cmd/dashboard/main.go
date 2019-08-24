@@ -19,6 +19,7 @@ func main() {
 	http.HandleFunc("/menu.html", menuHandler)
 	//	http.HandleFunc("/default.html", fileHandler)
 	http.HandleFunc("/", fileHandler)
+	log.Println("Starting Server on:", *port)
 	log.Fatal(http.ListenAndServe(*port, nil))
 }
 
@@ -77,6 +78,7 @@ func menuHandler(w http.ResponseWriter, r *http.Request) {
 func addBar(items []Pair) ([]Pair, error) {
 
 	// get all bar matches and add to items
+	log.Println("getting bar chart matches from", "http://178.62.59.88:31195/mondial/basic/bar")
 	resp, err := http.Get("http://178.62.59.88:31195/mondial/basic/bar")
 	if err != nil {
 		return nil, err
@@ -109,6 +111,7 @@ func addBar(items []Pair) ([]Pair, error) {
 func addScatter(items []Pair) ([]Pair, error) {
 
 	// get all bar matches and add to items
+	log.Println("getting scatter chart matches from", "http://178.62.59.88:31195/mondial/basic/scatter")
 	resp, err := http.Get("http://178.62.59.88:31195/mondial/basic/scatter")
 	if err != nil {
 		return nil, err
@@ -144,6 +147,7 @@ func addScatter(items []Pair) ([]Pair, error) {
 func addBubble(items []Pair) ([]Pair, error) {
 
 	// get all bar matches and add to items
+	log.Println("getting bubble chart matches from", "http://178.62.59.88:31195/mondial/basic/bubble")
 	resp, err := http.Get("http://178.62.59.88:31195/mondial/basic/bubble")
 	if err != nil {
 		return nil, err
