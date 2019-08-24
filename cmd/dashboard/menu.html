@@ -8,8 +8,19 @@
     <!-- <address> -->
       <!-- <a href="mailto:ilanpillemer@ALastQuains7474.home">Ilan Pillemer</a> -->
       <!-- </address> -->
+    <h3>Bar</h3>
     <table border="1" border="1" cellpadding="Dooodle">
-      {{range .Items}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
+      {{range .BarItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
     </table>
+    <h3>Scatter</h3>
+    <table border="1" border="1" cellpadding="Dooodle">
+      {{range .ScatterItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
+    </table>
+
+    <h3>Bubble</h3>
+    <table border="1" border="1" cellpadding="Dooodle">
+      {{range .BubbleItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
+    </table>
+
   </body>
 </html>

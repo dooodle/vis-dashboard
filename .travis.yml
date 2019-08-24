@@ -1,0 +1,25 @@
+branches:
+  only:
+  - master
+
+sudo: required
+language: go
+env:
+  - GO111MODULE=on
+go:
+  - 1.11.x
+services:
+  - docker
+notifications:
+  slack: dooodle:hots3bBY7zx3Dff7425iO67W
+  
+script:
+  - go get -u
+  - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o server ./cmd/dashboard/main.go
+  - docker build -t dooodle/vis-dashboard .
+  - bash install-kubectl
+  - bash docker_push
+  - kubectl get pods | grep dashboard
+  - kubectl patch deployment dashboard-deployment  -p   "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
+  - kubectl get pods | grep dashboard
+

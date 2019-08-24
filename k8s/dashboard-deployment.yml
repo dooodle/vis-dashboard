@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard-deployment
+  labels:
+    app: dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard
+  template:
+    metadata:
+      labels:
+        app: dashboard
+    spec:
+      containers:
+      - name: dashboard
+        image: dooodle/vis-dashboard:latest
+        ports:
+        - containerPort: 8080
+        env:
+          - name: VIS_MONDIAL_USER
+            valueFrom:
+              configMapKeyRef:
+                name: vis-simple-config-map
+                key: VIS_MONDIAL_USER
+          - name: VIS_MONDIAL_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: vis-simple-config-map
+                key: VIS_MONDIAL_PASSWORD
+          - name: VIS_MONDIAL_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: vis-simple-config-map
+                key: VIS_MONDIAL_HOST
+          - name: VIS_MONDIAL_PORT
+            valueFrom:            
+               configMapKeyRef:
+                name: vis-simple-config-map
+                key: VIS_MONDIAL_PORT
+          - name: VIS_MONDIAL_SSLMODE
+            valueFrom:            
+              configMapKeyRef:
+                name: vis-simple-config-map
+                key: VIS_MONDIAL_SSLMODE
+          - name: VIS_MONDIAL_DBNAME
+            valueFrom:            
+              configMapKeyRef:
+                name: vis-simple-config-map
+                key: VIS_MONDIAL_DBNAME
