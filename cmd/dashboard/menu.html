@@ -8,18 +8,30 @@
     <!-- <address> -->
       <!-- <a href="mailto:ilanpillemer@ALastQuains7474.home">Ilan Pillemer</a> -->
       <!-- </address> -->
-    <h3>Bar</h3>
+    <h3>Basic Entity Vis.</h3>
+    <hr \>
+    <h4>Bar</h4>
     <table border="1" border="1" cellpadding="Dooodle">
       {{range .BarItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
     </table>
-    <h3>Scatter</h3>
+    <h4>Scatter</h4>
     <table border="1" border="1" cellpadding="Dooodle">
       {{range .ScatterItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
     </table>
 
-    <h3>Bubble</h3>
+    <h4>Bubble</h4>
     <table border="1" border="1" cellpadding="Dooodle">
       {{range .BubbleItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
+    </table>
+
+    <h4>Bubble</h4>
+    <table border="1" border="1" cellpadding="Dooodle">
+      {{range .BubbleItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
+    </table>
+    <h3>Weak Entity Vis</h3>
+    <h4>Line</h4>
+    <table border="1" border="1" cellpadding="Dooodle">
+      {{range .WeakLineItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
     </table>
 
   </body>

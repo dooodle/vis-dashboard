@@ -45,6 +45,7 @@ func menuHandler(w http.ResponseWriter, r *http.Request) {
 		BarItems     []Pair
 		ScatterItems []Pair
 		BubbleItems  []Pair
+		WeakLineItems []Pair
 	}{}
 
 	bar, err := addBar([]Pair{})
@@ -68,9 +69,17 @@ func menuHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	weakLine, err := addWeakLine([]Pair{})
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
 	data.BarItems = bar
 	data.ScatterItems = scatter
 	data.BubbleItems = bubble
+	data.WeakLineItems = weakLine
 
 	t.Execute(w, &data)
 }
@@ -172,6 +181,43 @@ func addBubble(items []Pair) ([]Pair, error) {
 
 		link := fmt.Sprintf("http://178.62.59.88:31364/basic/bubble?e=%s&x=%s&y=%s&c=%s&s=%s&label=%s", entity, a, b, c, c, key)
 		label := fmt.Sprintf("%s on %s,%s,%s by %s", entity, a, b, c, key)
+
+		items = append(items, Pair{label, link})
+
+	}
+	return items, nil
+}
+
+func addWeakLine(items []Pair) ([]Pair, error) {
+
+	// get all bar matches and add to items
+	log.Println("getting weak entity line chart matches from", "http://178.62.59.88:31195/mondial/weak/line")
+	resp, err := http.Get("http://178.62.59.88:31195/mondial/weak/line")
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	r := csv.NewReader(resp.Body)
+	r.Read() // ignore first line
+	for {
+		row, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return nil, err
+		}
+
+		entity := path.Base(row[0])
+		strong := path.Base(row[1])
+		weak := path.Base(row[2])
+		if strong == "year" { //hack for now.. need a better way of working out which are the strong and weak keys in the pattern match
+			strong, weak = weak, strong
+		}
+		measure := path.Base(row[3])
+
+		link := fmt.Sprintf("http://178.62.59.88:31364/weak/line?e=%s&strong=%s&weak=%s&n=%s", entity, strong, weak, measure)
+		label := fmt.Sprintf("%s on %s by %s,%s", entity, measure, strong, weak)
 
 		items = append(items, Pair{label, link})
 
