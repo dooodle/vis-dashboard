@@ -85,7 +85,7 @@ func menuHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	m2mChords , err := addM2mChord([]Pair{})
+	m2mChords , err := addm2mChord([]Pair{})
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
