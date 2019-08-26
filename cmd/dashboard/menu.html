@@ -17,6 +17,7 @@
         <td><a href="{{ .Value }}" target="main">link</a></td>
       </tr>{{end}}
     </table>
+
     <h4>Scatter</h4>
     <table border="1" border="1" cellpadding="Dooodle">
       {{range .ScatterItems}}<tr>
@@ -39,17 +40,14 @@
       </tr>{{end}}
     </table>
 
-    <h4>Bubble</h4>
-    <table border="1" border="1" cellpadding="Dooodle">
-      {{range .BubbleItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
-    </table>
     <h3>Weak Entity Vis</h3>
     <h4>Line</h4>
     <table border="1" border="1" cellpadding="Dooodle">
       {{range .WeakLineItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
     </table>
-    <h3>One 2 Many Circle Packing Vis</h3>
-    <h4>Line</h4>
+
+    <h3>One 2 Many Vis</h3>
+    <h4>Circle Packing</h4>
     <table border="1" border="1" cellpadding="Dooodle">
       {{range .O2mCircleItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
     </table>
