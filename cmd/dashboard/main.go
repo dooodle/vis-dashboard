@@ -47,6 +47,7 @@ func menuHandler(w http.ResponseWriter, r *http.Request) {
 		BubbleItems   []Pair
 		WeakLineItems []Pair
 		O2mCircleItems []Pair
+		M2mChordItems []Pair
 	}{}
 
 	bar, err := addBar([]Pair{})
@@ -84,11 +85,19 @@ func menuHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	m2mChords , err := addM2mChord([]Pair{})
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
 	data.BarItems = bar
 	data.ScatterItems = scatter
 	data.BubbleItems = bubble
 	data.WeakLineItems = weakLine
 	data.O2mCircleItems = o2mCircle
+	data.M2mChordItems = m2mChords
 
 	t.Execute(w, &data)
 }
@@ -238,7 +247,7 @@ func addO2mCircle(items []Pair) ([]Pair, error) {
 
 	// http://localhost:8080/o2m/circle?relation=airport&many=province&one=iata_code
 
-	log.Println("getting weak entity line chart matches from", "http://178.62.59.88:31195/mondial/o2m/circle")
+	log.Println("getting one 2 many circle packing matches from", "http://178.62.59.88:31195/mondial/o2m/circle")
 	resp, err := http.Get("http://178.62.59.88:31195/mondial/o2m/circle")
 	if err != nil {
 		return nil, err
@@ -262,6 +271,36 @@ func addO2mCircle(items []Pair) ([]Pair, error) {
 		//http://localhost:8080/o2m/circle?relation=airport&many=province&one=iata_code
 		link := fmt.Sprintf("http://178.62.59.88:31364/o2m/circle?relation=%s&one=%s&many=%s", entity, one, many)
 		label := fmt.Sprintf("%s by %s,%s", entity, one, many)
+		items = append(items, Pair{label, link})
+
+	}
+	return items, nil
+}
+//"/mondial/m2m/chord",
+func addm2mChord(items []Pair) ([]Pair, error) {
+	log.Println("getting many to many chord matches from", "http://178.62.59.88:31195/mondial/m2m/chord")
+	resp, err := http.Get("http://178.62.59.88:31195/mondial/m2m/chord")
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	r := csv.NewReader(resp.Body)
+	r.Read() // ignore first line
+	for {
+		row, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return nil, err
+		}
+
+		entity := path.Base(row[0])
+		k1 := path.Base(row[1])
+		k2 := path.Base(row[2])
+		measure := path.Base(row[3])
+		link := fmt.Sprintf("http://178.62.59.88:31364/m2m/chord?e=%s&x=%s&y=%s&n=%s", entity, k1, k2,measure)
+		label := fmt.Sprintf("%s on %s by %s,%s", entity, measure, k1, k2)
 		items = append(items, Pair{label, link})
 
 	}

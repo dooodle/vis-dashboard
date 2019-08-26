@@ -20,6 +20,7 @@
 
     <h4>Scatter</h4>
     <table border="1" border="1" cellpadding="Dooodle">
+        <tr><td>details</td><td>std</td><td>log(x)</td><td>log(y)</td><td>log(x) log(y)</td></tr>
       {{range .ScatterItems}}<tr>
         <td>{{ .Name }}</td>
         <td><a href="{{ .Value }}" target="main">link</a></td>
@@ -31,6 +32,7 @@
 
     <h4>Bubble</h4>
     <table border="1" border="1" cellpadding="Dooodle">
+        <tr><td>details</td><td>std</td><td>log(x)</td><td>log(y)</td><td>log(x) log(y)</td></tr>
       {{range .BubbleItems}}<tr>
         <td>{{ .Name }}</td>
         <td><a href="{{ .Value }}" target="main">link</a></td>
@@ -50,6 +52,12 @@
     <h4>Circle Packing</h4>
     <table border="1" border="1" cellpadding="Dooodle">
       {{range .O2mCircleItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
+    </table>
+
+    <h3>Many 2 Many Vis</h3>
+    <h4>Chords</h4>
+    <table border="1" border="1" cellpadding="Dooodle">
+        {{range .O2mCircleItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
     </table>
 
   </body>
