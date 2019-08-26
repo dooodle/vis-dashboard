@@ -260,7 +260,7 @@ func addO2mCircle(items []Pair) ([]Pair, error) {
 		many := path.Base(row[2])
 		//measure := path.Base(row[3])
 		//http://localhost:8080/o2m/circle?relation=airport&many=province&one=iata_code
-		link := fmt.Sprintf("o2m/circle?relation=%s&one=%s&many=%s", entity, one, many)
+		link := fmt.Sprintf("http://178.62.59.88:31364/o2m/circle?relation=%s&one=%s&many=%s", entity, one, many)
 		label := fmt.Sprintf("%s by %s,%s", entity, one, many)
 		items = append(items, Pair{label, link})
 
