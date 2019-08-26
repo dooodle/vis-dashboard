@@ -42,10 +42,11 @@ func fileHandler(w http.ResponseWriter, r *http.Request) {
 func menuHandler(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseFiles("menu.html")
 	data := struct {
-		BarItems     []Pair
-		ScatterItems []Pair
-		BubbleItems  []Pair
+		BarItems      []Pair
+		ScatterItems  []Pair
+		BubbleItems   []Pair
 		WeakLineItems []Pair
+		O2mCircleItems []Pair
 	}{}
 
 	bar, err := addBar([]Pair{})
@@ -76,10 +77,18 @@ func menuHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	o2mCircle, err := addO2mCircle([]Pair{})
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
 	data.BarItems = bar
 	data.ScatterItems = scatter
 	data.BubbleItems = bubble
 	data.WeakLineItems = weakLine
+	data.O2mCircleItems = o2mCircle
 
 	t.Execute(w, &data)
 }
@@ -219,6 +228,40 @@ func addWeakLine(items []Pair) ([]Pair, error) {
 		link := fmt.Sprintf("http://178.62.59.88:31364/weak/line?e=%s&strong=%s&weak=%s&n=%s", entity, strong, weak, measure)
 		label := fmt.Sprintf("%s on %s by %s,%s", entity, measure, strong, weak)
 
+		items = append(items, Pair{label, link})
+
+	}
+	return items, nil
+}
+
+func addO2mCircle(items []Pair) ([]Pair, error) {
+
+	// http://localhost:8080/o2m/circle?relation=airport&many=province&one=iata_code
+
+	log.Println("getting weak entity line chart matches from", "http://178.62.59.88:31195/mondial/o2m/circle")
+	resp, err := http.Get("http://178.62.59.88:31195/mondial/o2m/circle")
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	r := csv.NewReader(resp.Body)
+	r.Read() // ignore first line
+	for {
+		row, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return nil, err
+		}
+
+		entity := path.Base(row[0])
+		one := path.Base(row[1])
+		many := path.Base(row[2])
+		//measure := path.Base(row[3])
+		//http://localhost:8080/o2m/circle?relation=airport&many=province&one=iata_code
+		link := fmt.Sprintf("o2m/circle?relation=%s&one=%s&many=%s", entity, one, many)
+		label := fmt.Sprintf("%s by %s,%s", entity, one, many)
 		items = append(items, Pair{label, link})
 
 	}

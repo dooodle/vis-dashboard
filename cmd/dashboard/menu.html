@@ -12,16 +12,31 @@
     <hr \>
     <h4>Bar</h4>
     <table border="1" border="1" cellpadding="Dooodle">
-      {{range .BarItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
+      {{range .BarItems}}<tr>
+        <td>{{ .Name }}</td>
+        <td><a href="{{ .Value }}" target="main">link</a></td>
+      </tr>{{end}}
     </table>
     <h4>Scatter</h4>
     <table border="1" border="1" cellpadding="Dooodle">
-      {{range .ScatterItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
+      {{range .ScatterItems}}<tr>
+        <td>{{ .Name }}</td>
+        <td><a href="{{ .Value }}" target="main">link</a></td>
+        <td><a href="{{ .Value }}&logx=true" target="main">link</a></td>
+        <td><a href="{{ .Value }}&logy=true" target="main">link</a></td>
+        <td><a href="{{ .Value }}&logx=true&logy=true" target="main">link</a></td>
+      </tr>{{end}}
     </table>
 
     <h4>Bubble</h4>
     <table border="1" border="1" cellpadding="Dooodle">
-      {{range .BubbleItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
+      {{range .BubbleItems}}<tr>
+        <td>{{ .Name }}</td>
+        <td><a href="{{ .Value }}" target="main">link</a></td>
+        <td><a href="{{ .Value }}&logx=true" target="main">link</a></td>
+        <td><a href="{{ .Value }}&logy=true" target="main">link</a></td>
+        <td><a href="{{ .Value }}&logx=true&logy=true" target="main">link</a></td>
+      </tr>{{end}}
     </table>
 
     <h4>Bubble</h4>
@@ -32,6 +47,11 @@
     <h4>Line</h4>
     <table border="1" border="1" cellpadding="Dooodle">
       {{range .WeakLineItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
+    </table>
+    <h3>One 2 Many Circle Packing Vis</h3>
+    <h4>Line</h4>
+    <table border="1" border="1" cellpadding="Dooodle">
+      {{range .O2mCircleItems}}<tr><td>{{ .Name }}</td><td><a href="{{ .Value }}" target="main">link</a></td></tr>{{end}}
     </table>
 
   </body>
