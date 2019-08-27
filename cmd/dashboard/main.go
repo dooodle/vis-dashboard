@@ -229,9 +229,9 @@ func addWeakLine(items []Pair) ([]Pair, error) {
 		entity := path.Base(row[0])
 		strong := path.Base(row[1])
 		weak := path.Base(row[2])
-		if strong == "year" { //hack for now.. need a better way of working out which are the strong and weak keys in the pattern match
-			strong, weak = weak, strong
-		}
+		//if strong == "year" { //hack for now.. need a better way of working out which are the strong and weak keys in the pattern match
+		//	strong, weak = weak, strong
+		//}
 		measure := path.Base(row[3])
 
 		link := fmt.Sprintf("http://178.62.59.88:31364/weak/line?e=%s&strong=%s&weak=%s&n=%s", entity, strong, weak, measure)
