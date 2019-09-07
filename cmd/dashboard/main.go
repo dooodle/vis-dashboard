@@ -126,7 +126,7 @@ func addBar(items []Pair) ([]Pair, error) {
 		key := path.Base(row[1])
 		col := path.Base(row[2])
 
-		link := fmt.Sprintf("http://178.62.59.88:31364/basic/bar?e=%s&x=%s&label=%s", entity, col, key)
+		link := fmt.Sprintf("http://178.62.59.88:31364/basic2/bar?e=%s&x=%s&label=%s", entity, col, key)
 		label := fmt.Sprintf("%s on %s by %s", entity, col, key)
 
 		items = append(items, Pair{label, link})
