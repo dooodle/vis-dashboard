@@ -14,6 +14,11 @@ import (
 
 var port = flag.String("http", ":8080", "port")
 
+// http://64.227.42.67:32609/mondial/basic/scatter
+// http://178.62.59.88:31195
+
+// http://64.227.42.67:32534/basic2/bar
+// http://64.227.42.67:31364/basic2/bar
 func main() {
 	flag.Parse()
 	http.HandleFunc("/menu.html", menuHandler)
@@ -42,12 +47,12 @@ func fileHandler(w http.ResponseWriter, r *http.Request) {
 func menuHandler(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseFiles("menu.html")
 	data := struct {
-		BarItems      []Pair
-		ScatterItems  []Pair
-		BubbleItems   []Pair
-		WeakLineItems []Pair
+		BarItems       []Pair
+		ScatterItems   []Pair
+		BubbleItems    []Pair
+		WeakLineItems  []Pair
 		O2mCircleItems []Pair
-		M2mChordItems []Pair
+		M2mChordItems  []Pair
 	}{}
 
 	bar, err := addBar([]Pair{})
@@ -85,7 +90,7 @@ func menuHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	m2mChords , err := addm2mChord([]Pair{})
+	m2mChords, err := addm2mChord([]Pair{})
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
@@ -105,8 +110,8 @@ func menuHandler(w http.ResponseWriter, r *http.Request) {
 func addBar(items []Pair) ([]Pair, error) {
 
 	// get all bar matches and add to items
-	log.Println("getting bar chart matches from", "http://178.62.59.88:31195/mondial/basic/bar")
-	resp, err := http.Get("http://178.62.59.88:31195/mondial/basic/bar")
+	log.Println("getting bar chart matches from", "http://64.227.42.67:32609/mondial/basic/bar")
+	resp, err := http.Get("http://64.227.42.67:32609/mondial/basic/bar")
 	if err != nil {
 		return nil, err
 	}
@@ -126,7 +131,7 @@ func addBar(items []Pair) ([]Pair, error) {
 		key := path.Base(row[1])
 		col := path.Base(row[2])
 
-		link := fmt.Sprintf("http://178.62.59.88:31364/basic2/bar?e=%s&x=%s&label=%s", entity, col, key)
+		link := fmt.Sprintf("http://64.227.42.67:32534/basic2/bar?e=%s&x=%s&label=%s", entity, col, key)
 		label := fmt.Sprintf("%s on %s by %s", entity, col, key)
 
 		items = append(items, Pair{label, link})
@@ -138,8 +143,8 @@ func addBar(items []Pair) ([]Pair, error) {
 func addScatter(items []Pair) ([]Pair, error) {
 
 	// get all bar matches and add to items
-	log.Println("getting scatter chart matches from", "http://178.62.59.88:31195/mondial/basic/scatter")
-	resp, err := http.Get("http://178.62.59.88:31195/mondial/basic/scatter")
+	log.Println("getting scatter chart matches from", "http://64.227.42.67:32609/mondial/basic/scatter")
+	resp, err := http.Get("http://64.227.42.67:32609/mondial/basic/scatter")
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +167,7 @@ func addScatter(items []Pair) ([]Pair, error) {
 
 		//
 		// 	entity,key,scalarA,scalarB
-		link := fmt.Sprintf("http://178.62.59.88:31364/basic/scatter?e=%s&x=%s&y=%s&c=%s&label=%s", entity, a, b, a, key)
+		link := fmt.Sprintf("http://64.227.42.67:32534/basic/scatter?e=%s&x=%s&y=%s&c=%s&label=%s", entity, a, b, a, key)
 		label := fmt.Sprintf("%s on %s,%s by %s", entity, a, b, key)
 
 		items = append(items, Pair{label, link})
@@ -174,8 +179,8 @@ func addScatter(items []Pair) ([]Pair, error) {
 func addBubble(items []Pair) ([]Pair, error) {
 
 	// get all bar matches and add to items
-	log.Println("getting bubble chart matches from", "http://178.62.59.88:31195/mondial/basic/bubble")
-	resp, err := http.Get("http://178.62.59.88:31195/mondial/basic/bubble")
+	log.Println("getting bubble chart matches from", "http://64.227.42.67:32609/mondial/basic/bubble")
+	resp, err := http.Get("http://64.227.42.67:32609/mondial/basic/bubble")
 	if err != nil {
 		return nil, err
 	}
@@ -197,7 +202,7 @@ func addBubble(items []Pair) ([]Pair, error) {
 		b := path.Base(row[3])
 		c := path.Base(row[4])
 
-		link := fmt.Sprintf("http://178.62.59.88:31364/basic/bubble?e=%s&x=%s&y=%s&c=%s&s=%s&label=%s", entity, a, b, c, c, key)
+		link := fmt.Sprintf("http://64.227.42.67:32534/basic/bubble?e=%s&x=%s&y=%s&c=%s&s=%s&label=%s", entity, a, b, c, c, key)
 		label := fmt.Sprintf("%s on %s,%s,%s by %s", entity, a, b, c, key)
 
 		items = append(items, Pair{label, link})
@@ -209,8 +214,8 @@ func addBubble(items []Pair) ([]Pair, error) {
 func addWeakLine(items []Pair) ([]Pair, error) {
 
 	// get all bar matches and add to items
-	log.Println("getting weak entity line chart matches from", "http://178.62.59.88:31195/mondial/weak/line")
-	resp, err := http.Get("http://178.62.59.88:31195/mondial/weak/line")
+	log.Println("getting weak entity line chart matches from", "http://64.227.42.67:32609/mondial/weak/line")
+	resp, err := http.Get("http://64.227.42.67:32609/mondial/weak/line")
 	if err != nil {
 		return nil, err
 	}
@@ -234,7 +239,7 @@ func addWeakLine(items []Pair) ([]Pair, error) {
 		//}
 		measure := path.Base(row[3])
 
-		link := fmt.Sprintf("http://178.62.59.88:31364/weak/line?e=%s&strong=%s&weak=%s&n=%s", entity, strong, weak, measure)
+		link := fmt.Sprintf("http://64.227.42.67:32534/weak/line?e=%s&strong=%s&weak=%s&n=%s", entity, strong, weak, measure)
 		label := fmt.Sprintf("%s on %s by %s,%s", entity, measure, strong, weak)
 
 		items = append(items, Pair{label, link})
@@ -247,8 +252,8 @@ func addO2mCircle(items []Pair) ([]Pair, error) {
 
 	// http://localhost:8080/o2m/circle?relation=airport&many=province&one=iata_code
 
-	log.Println("getting one 2 many circle packing matches from", "http://178.62.59.88:31195/mondial/o2m/circle")
-	resp, err := http.Get("http://178.62.59.88:31195/mondial/o2m/circle")
+	log.Println("getting one 2 many circle packing matches from", "http://64.227.42.67:32609/mondial/o2m/circle")
+	resp, err := http.Get("http://64.227.42.67:32609/mondial/o2m/circle")
 	if err != nil {
 		return nil, err
 	}
@@ -269,17 +274,18 @@ func addO2mCircle(items []Pair) ([]Pair, error) {
 		many := path.Base(row[2])
 		//measure := path.Base(row[3])
 		//http://localhost:8080/o2m/circle?relation=airport&many=province&one=iata_code
-		link := fmt.Sprintf("http://178.62.59.88:31364/o2m/circle?relation=%s&one=%s&many=%s", entity, one, many)
+		link := fmt.Sprintf("http://64.227.42.67:32534/o2m/circle?relation=%s&one=%s&many=%s", entity, one, many)
 		label := fmt.Sprintf("%s by %s,%s", entity, one, many)
 		items = append(items, Pair{label, link})
 
 	}
 	return items, nil
 }
+
 //"/mondial/m2m/chord",
 func addm2mChord(items []Pair) ([]Pair, error) {
-	log.Println("getting many to many chord matches from", "http://178.62.59.88:31195/mondial/m2m/chord")
-	resp, err := http.Get("http://178.62.59.88:31195/mondial/m2m/chord")
+	log.Println("getting many to many chord matches from", "http://64.227.42.67:32609/mondial/m2m/chord")
+	resp, err := http.Get("http://64.227.42.67:32609/mondial/m2m/chord")
 	if err != nil {
 		return nil, err
 	}
@@ -299,7 +305,7 @@ func addm2mChord(items []Pair) ([]Pair, error) {
 		k1 := path.Base(row[1])
 		k2 := path.Base(row[2])
 		measure := path.Base(row[3])
-		link := fmt.Sprintf("http://178.62.59.88:31364/m2m/chord?e=%s&x=%s&y=%s&n=%s", entity, k1, k2,measure)
+		link := fmt.Sprintf("http://64.227.42.67:32534/m2m/chord?e=%s&x=%s&y=%s&n=%s", entity, k1, k2, measure)
 		label := fmt.Sprintf("%s on %s by %s,%s", entity, measure, k1, k2)
 		items = append(items, Pair{label, link})
 
